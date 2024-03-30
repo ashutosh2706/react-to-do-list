@@ -19,7 +19,7 @@ export default function TodoSummary({todos, deleteAllCompleted}: TodoSummaryProp
                     percentComplete >= 75 ? " 😀" : 
                     percentComplete >= 50 ? " 🙂" : 
                     percentComplete >= 25 ? " 😠" : 
-                    " 😡" }
+                    " 😡"}
                 </p>
             )}
             {completedTodos.length > 0 && (
