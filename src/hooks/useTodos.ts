@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
-import { Todo } from "../types/todo";
 import { dummyData } from "../data/todo";
 
 // custom hook
 export default function useTodos() {
 
     const [todos, setTodos] = useState(() => {
-        // get initial value
-        const savedTodos: Todo[] = JSON.parse(localStorage.getItem("todos") || "[]");
-        return savedTodos.length > 0 ? savedTodos : dummyData;
+        return dummyData;
     });
     
     useEffect(() => {
-        // save the todo to firebase
-        localStorage.setItem("todos", JSON.stringify(todos));
+        
     }, [todos]);
     
-    function setTodoCompleted(id: number, completed:boolean) {
+    function setTodoCompleted(id: string, completed:boolean) {
         setTodos((prevTodos) => 
         prevTodos.map(todo => (todo.id === id ? {...todo, completed} : todo )))
     }
@@ -24,7 +20,7 @@ export default function useTodos() {
     function addTodo(title: string) {
         setTodos(prevTodos => [
           {
-            id: Date.now(),
+            id: Date.now().toString(),
             title,
             completed: false
           },
@@ -32,7 +28,7 @@ export default function useTodos() {
         ])
     }
     
-    function deleteTodo(id: number) {
+    function deleteTodo(id: string) {
         setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
     }
     

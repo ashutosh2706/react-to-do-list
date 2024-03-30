@@ -3,8 +3,8 @@ import { Todo } from "../types/todo"
 
 interface TodoItemProps {
     todo: Todo;
-    onCompletedChange: (id: number, completed: boolean) => void;
-    onDelete: (id: number) => void;
+    onCompletedChange: (id: string, completed: boolean) => void;
+    onDelete: (id: string) => void;
 }
 
 export default function TodoItem({todo, onCompletedChange, onDelete} : TodoItemProps) {
