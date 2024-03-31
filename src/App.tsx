@@ -1,29 +1,19 @@
-import NewTodo from "./components/NewTodo";
-import TodoList from "./components/TodoList";
-import TodoSummary from "./components/TodoSummary";
-import useTodos from "./hooks/useTodos";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Error from "./pages/Error";
+import Home from "./pages/Home";
 
 function App() {
-  
-  const {todos, addTodo, setTodoCompleted, deleteAllCompletedTodos, deleteTodo} = useTodos();
-
-
-  return (
-    <>
-      <main className="py-10 h-screen space-y-5 overflow-y-auto">
-        <h1 className="font-bold text-3xl text-center">Todos</h1>
-        <div className="max-w-lg mx-auto bg-slate-100 rounded-md p-5 space-y-6">
-          <TodoSummary todos={todos} deleteAllCompleted={deleteAllCompletedTodos}/>
-          <NewTodo onSubmit={addTodo}/>
-          <TodoList 
-          todos={todos} 
-          onCompletedChange={setTodoCompleted}
-          onDelete={deleteTodo} />
-        </div>
-        
-      </main>
-    </>
+  return(
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />}/>
+        <Route path="/list" element={<Home />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </BrowserRouter>
   )
+
 }
 
 export default App

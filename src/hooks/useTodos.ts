@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { initializeApp } from "firebase/app";
-import firebaseConfig from "../firebaseConfig";
 import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { Todo } from "../types/todo";
+import { firebaseApp } from "../firebaseConfig";
+import { getCookie } from "../utils/cookieUtil";
 
 // custom hook
 export default function useTodos() {
 
-    const COLLECTION_NAME: string = import.meta.env.VITE_DB_COLLECTION_NAME;
+    const uid = getCookie("token");
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const COLLECTION_NAME: string = import.meta.env.VITE_DB_COLLECTION_NAME + `:${uid}`;
+
+    const db = getFirestore(firebaseApp);
     const collectionRef = collection(db, COLLECTION_NAME);
     
     const [todos, setTodos] = useState<Todo[]>([]);
