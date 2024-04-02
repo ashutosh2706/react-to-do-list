@@ -1,37 +1,24 @@
 import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { getCookie, setCookie } from "../utils/cookieUtil";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
-export default function Login() {
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        document.title = "Login";
-        const uid = getCookie("token");
-        auth.onAuthStateChanged((user) => {
-            if (user && uid) {
-                if (user.uid === uid) {
-                    navigate("/list");
-                }
-            }
-        })
-    }, []);
+import { setCookie } from "../utils/cookieUtil";
 
 
+interface LoginProps {
+    setVerified: React.Dispatch<React.SetStateAction<boolean>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Login({setVerified, setLoading}: LoginProps) {
 
     const loginUser = async (email: string, password: string) => {
-        console.log(`email: ${email} pass: ${password}`);
+        setLoading(true);
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setCookie(userCredential.user.uid);
-            navigate("/list");
+            setVerified(true);
         } catch (error) {
             window.alert("email/password was incorrect");
         }
-
     }
 
     return (
